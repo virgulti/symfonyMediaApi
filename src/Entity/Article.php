@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\ArticleRepository;
+use App\State\Processor\ArticleStateProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -38,10 +39,12 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: "is_granted('ROLE_ADMIN')",
             normalizationContext: ['groups' => ['article:read']],
             denormalizationContext: ['groups' => ['article:write']],
+            processor: ArticleStateProcessor::class,
         ),
         new Patch(
             security: "is_granted('ROLE_ADMIN')",
             denormalizationContext: ['groups' => ['article:write']],
+            processor: ArticleStateProcessor::class,
         ),
         new Delete(
             security: "is_granted('ROLE_ADMIN')",

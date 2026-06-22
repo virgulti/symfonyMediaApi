@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use App\Repository\TagRepository;
+use App\State\Processor\TagStateProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +27,9 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             security: "is_granted('ROLE_ADMIN')",
             denormalizationContext: ['groups' => ['tag:write']],
+            processor: TagStateProcessor::class,
         ),
+        new Get(normalizationContext: ['groups' => ['tag:read']]),
     ]
 )]
 class Tag
@@ -34,17 +38,17 @@ class Tag
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
-    #[Groups(['tag:list', 'article:list', 'article:read'])]
+    #[Groups(['tag:list', 'article:list', 'article:read', 'tag:read'])]
     private ?Uuid $id = null;
 
     #[ORM\Column(length: 50, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 50)]
-    #[Groups(['tag:list', 'tag:write', 'article:list', 'article:read'])]
+    #[Groups(['tag:list', 'tag:write', 'article:list', 'article:read', 'tag:read'])]
     private string $name = '';
 
     #[ORM\Column(length: 50, unique: true)]
-    #[Groups(['tag:list'])]
+    #[Groups(['tag:list', 'tag:read'])]
     private string $slug = '';
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'tags')]

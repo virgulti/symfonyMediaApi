@@ -32,7 +32,8 @@ abstract class ApiTestCase extends BaseApiTestCase
      */
     protected function createUser(string $email, string $password = 'password', array $roles = []): User
     {
-        $hasher = static::getContainer()->get(UserPasswordHasherInterface::class);
+        /** @var UserPasswordHasherInterface $hasher */
+        $hasher = static::getContainer()->get('test.user_password_hasher');
 
         $user = new User();
         $user->setEmail($email);
