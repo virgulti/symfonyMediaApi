@@ -12,6 +12,11 @@ api_platform:
         jsonopenapi: ['application/vnd.openapi+json']
         html:    ['text/html']
 
+    # Keep the "hydra:" prefix on collection metadata (hydra:member, hydra:totalItems).
+    # API Platform 4 drops it by default; we keep it for a stable, documented contract.
+    serializer:
+        hydra_prefix: true
+
     defaults:
         pagination_enabled: true
         pagination_items_per_page: 20

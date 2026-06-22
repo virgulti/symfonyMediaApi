@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace App\Tests\Api;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use App\Entity\Article;
 use App\Entity\ArticleStatus;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Tests\ApiTestCase;
 
 class ArticleApiTest extends ApiTestCase
 {
-    private EntityManagerInterface $em;
-
-    protected function setUp(): void
-    {
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-    }
 
     public function test_get_articles_returns_empty_list(): void
     {
@@ -54,8 +47,8 @@ class ArticleApiTest extends ApiTestCase
         $article->setStatus(ArticleStatus::Published);
         $article->setPublishedAt(new \DateTimeImmutable());
 
-        $this->em->persist($article);
-        $this->em->flush();
+        $this->entityManager()->persist($article);
+        $this->entityManager()->flush();
 
         $response = static::createClient()->request(
             'GET',
@@ -84,8 +77,8 @@ class ArticleApiTest extends ApiTestCase
         $article->setStatus(ArticleStatus::Published);
         $article->setPublishedAt(new \DateTimeImmutable());
 
-        $this->em->persist($article);
-        $this->em->flush();
+        $this->entityManager()->persist($article);
+        $this->entityManager()->flush();
 
         $response = static::createClient()->request('GET', '/api/articles');
         $data     = $response->toArray();

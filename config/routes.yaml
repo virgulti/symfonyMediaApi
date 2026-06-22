@@ -9,3 +9,9 @@
 
 controllers:
     resource: routing.controllers
+
+# JWT login endpoint. The json_login authenticator on the "login" firewall
+# intercepts POST requests here; no controller is needed.
+api_login_check:
+    path: /api/auth/login
+    methods: [POST]
