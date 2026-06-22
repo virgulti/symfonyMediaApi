@@ -17,3 +17,10 @@
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+.aider*
+.env
+
+# aider
+.aider*
+!.aider.conf.yml
+!.aider.model.settings.yml
