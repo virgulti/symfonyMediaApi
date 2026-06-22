@@ -1,0 +1,24 @@
+api_platform:
+    title: 'Media Content API'
+    description: 'REST API for managing media content: articles, episodes and collections.'
+    version: '1.0.0'
+
+    formats:
+        jsonld:  ['application/ld+json']
+        json:    ['application/json']
+
+    docs_formats:
+        jsonld:  ['application/ld+json']
+        jsonopenapi: ['application/vnd.openapi+json']
+        html:    ['text/html']
+
+    defaults:
+        pagination_enabled: true
+        pagination_items_per_page: 20
+        pagination_maximum_items_per_page: 100
+
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header

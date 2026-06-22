@@ -1,0 +1,5 @@
+# Contesto esplicito per il modello locale: il default di Ollama e' troppo
+# piccolo per la repo-map di aider e tronca silenziosamente il prompt.
+- name: ollama_chat/qwen2.5-coder:14b
+  extra_params:
+    num_ctx: 16384

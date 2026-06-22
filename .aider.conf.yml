@@ -1,0 +1,7 @@
+# Aider: modello locale via Ollama, nessuna chiave API necessaria.
+model: ollama_chat/qwen2.5-coder:14b
+set-env:
+  - OLLAMA_API_BASE=http://127.0.0.1:11434
+# Il coordinatore committa lui stesso con messaggi TASK-n.
+auto-commits: false
+yes-always: true
