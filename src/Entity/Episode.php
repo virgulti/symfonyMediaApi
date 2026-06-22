@@ -152,6 +152,12 @@ class Episode
         return $this;
     }
 
+    public function removeTag(Tag $tag): static
+    {
+        $this->tags->removeElement($tag);
+        return $this;
+    }
+
     #[ORM\PreUpdate]
     public function onPreUpdate(): void
     {
