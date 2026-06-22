@@ -1,3 +1,13 @@
+# PostgreSQL services for a production-like environment.
+#
+# Local development and the test suite use SQLite (zero-config, see .env / .env.test),
+# so Docker is optional. Bring these up if you want to run the app against PostgreSQL:
+#
+#   docker compose up -d postgres
+#   DATABASE_URL="postgresql://app:secret@127.0.0.1:5432/media_api?serverVersion=16&charset=utf8" \
+#     php bin/console doctrine:migrations:diff   # regenerate migrations for PostgreSQL
+#
+# Note: the committed migrations target SQLite; regenerate them against PostgreSQL before migrating.
 services:
   postgres:
     image: postgres:16-alpine
@@ -7,6 +17,11 @@ services:
       POSTGRES_PASSWORD: secret
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "media_api", "-U", "app"]
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -19,28 +34,5 @@ services:
     ports:
       - "5433:5432"
 
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-16}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
-    healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
-      timeout: 5s
-      retries: 5
-      start_period: 60s
-    volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
-
 volumes:
   postgres_data:
-
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
