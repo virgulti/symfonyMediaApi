@@ -23,6 +23,9 @@
 # claude
 .claude/
 
+# backlog
+backlog/
+
 # aider
 .aider*
 !.aider.conf.yml
