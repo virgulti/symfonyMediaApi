@@ -20,6 +20,9 @@
 .aider*
 .env
 
+# claude
+.claude/
+
 # aider
 .aider*
 !.aider.conf.yml
